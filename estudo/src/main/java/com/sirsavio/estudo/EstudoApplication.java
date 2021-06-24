@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sirsavio.estudo.domain.Category;
+import com.sirsavio.estudo.domain.City;
 import com.sirsavio.estudo.domain.Product;
+import com.sirsavio.estudo.domain.State;
 import com.sirsavio.estudo.repositories.CategoryRepository;
+import com.sirsavio.estudo.repositories.CityRepository;
 import com.sirsavio.estudo.repositories.ProductRepository;
+import com.sirsavio.estudo.repositories.StateRepository;
 
 @SpringBootApplication
 public class EstudoApplication implements CommandLineRunner {
@@ -18,6 +22,10 @@ public class EstudoApplication implements CommandLineRunner {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private StateRepository stateRepository;
+	@Autowired
+	private CityRepository cityRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EstudoApplication.class, args);
@@ -39,9 +47,23 @@ public class EstudoApplication implements CommandLineRunner {
 		prod2.getCategories().addAll(Arrays.asList(cat1, cat2));
 		prod3.getCategories().addAll(Arrays.asList(cat1));
 		
-		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
+		
+		State est1 = new State(null, "Minas Gerais");
+		State est2 = new State(null, "São Paulo");
+		
+		City cid1 = new City(null, "Uberlandia", est1);
+		City cid2 = new City(null, "São Paulo", est2);
+		City cid3 = new City(null, "Campinas", est2);
+		
+		est1.getCities().addAll(Arrays.asList(cid1));
+		est2.getCities().addAll(Arrays.asList(cid2, cid3));
+		
+		stateRepository.saveAll(Arrays.asList(est1, est2));
+		cityRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
+		
+		
 	}
 
 }
