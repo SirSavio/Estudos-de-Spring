@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.sirsavio.estudo.domain.Address;
 import com.sirsavio.estudo.domain.Category;
 import com.sirsavio.estudo.domain.City;
+import com.sirsavio.estudo.domain.Client;
 import com.sirsavio.estudo.domain.Product;
 import com.sirsavio.estudo.domain.State;
+import com.sirsavio.estudo.domain.enums.ClientType;
+import com.sirsavio.estudo.repositories.AddressRepository;
 import com.sirsavio.estudo.repositories.CategoryRepository;
 import com.sirsavio.estudo.repositories.CityRepository;
+import com.sirsavio.estudo.repositories.ClientRepository;
 import com.sirsavio.estudo.repositories.ProductRepository;
 import com.sirsavio.estudo.repositories.StateRepository;
 
@@ -26,6 +31,10 @@ public class EstudoApplication implements CommandLineRunner {
 	private StateRepository stateRepository;
 	@Autowired
 	private CityRepository cityRepository;
+	@Autowired
+	private AddressRepository addressRepository;
+	@Autowired
+	private ClientRepository clientRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EstudoApplication.class, args);
@@ -62,6 +71,17 @@ public class EstudoApplication implements CommandLineRunner {
 		
 		stateRepository.saveAll(Arrays.asList(est1, est2));
 		cityRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
+		
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "00000000000", ClientType.PF);
+		cli1.getPhones().addAll(Arrays.asList("99999999", "11111111"));
+		
+		Address e1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "35931188", cli1, cid1);
+		Address e2 = new Address(null, "Rua Jardim", "55", "Apt 101", "Campo Bom", "35931188", cli1, cid2);
+		
+		cli1.getAddresses().addAll(Arrays.asList(e1, e2));
+		
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(e1, e2));
 		
 		
 	}
