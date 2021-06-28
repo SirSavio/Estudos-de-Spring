@@ -1,7 +1,5 @@
 package com.sirsavio.estudo.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 
 import com.sirsavio.estudo.domain.enums.Status;
