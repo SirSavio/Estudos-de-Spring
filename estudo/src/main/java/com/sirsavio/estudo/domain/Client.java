@@ -35,12 +35,14 @@ public class Client implements Serializable {
 	private List<Address> addresses = new ArrayList<>();
 	
 	@ElementCollection
-	@CollectionTable(name = "PHONE")
+	@CollectionTable(name = "Phone")
 	private Set<String> phones = new HashSet<>();
 	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 	
-	public Client() {
-	}
+	
+	public Client() {}
 
 	public Client(Integer id, String name, String email, String document, ClientType type) {
 		super();
@@ -125,13 +127,19 @@ public class Client implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
 
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
