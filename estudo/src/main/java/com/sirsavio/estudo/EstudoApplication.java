@@ -15,6 +15,7 @@ import com.sirsavio.estudo.domain.Category;
 import com.sirsavio.estudo.domain.City;
 import com.sirsavio.estudo.domain.Client;
 import com.sirsavio.estudo.domain.Order;
+import com.sirsavio.estudo.domain.OrderItem;
 import com.sirsavio.estudo.domain.Payment;
 import com.sirsavio.estudo.domain.Product;
 import com.sirsavio.estudo.domain.State;
@@ -24,6 +25,7 @@ import com.sirsavio.estudo.repositories.AddressRepository;
 import com.sirsavio.estudo.repositories.CategoryRepository;
 import com.sirsavio.estudo.repositories.CityRepository;
 import com.sirsavio.estudo.repositories.ClientRepository;
+import com.sirsavio.estudo.repositories.OrderItemRepository;
 import com.sirsavio.estudo.repositories.OrderRepository;
 import com.sirsavio.estudo.repositories.PaymentRepository;
 import com.sirsavio.estudo.repositories.ProductRepository;
@@ -47,6 +49,8 @@ public class EstudoApplication implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EstudoApplication.class, args);
@@ -109,6 +113,20 @@ public class EstudoApplication implements CommandLineRunner {
 		
 		orderRepository.saveAll(Arrays.asList(ped1, ped2));
 		paymentRepository.saveAll(Arrays.asList(pag1, pag2));
+		
+		OrderItem oi1 = new OrderItem(ped1, prod1, 0.00, 1, 2000.00);
+		OrderItem oi2 = new OrderItem(ped1, prod3, 0.00, 2, 80.00);
+		OrderItem oi3 = new OrderItem(ped2, prod2, 100.00, 1, 800.00);
+		
+		ped1.getItems().addAll(Arrays.asList(oi1, oi2));
+		ped2.getItems().add(oi3);
+		
+		prod1.getItems().addAll(Arrays.asList(oi1));
+		prod2.getItems().addAll(Arrays.asList(oi3));
+		prod3.getItems().addAll(Arrays.asList(oi2));
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
+		
 	}
 
 }
