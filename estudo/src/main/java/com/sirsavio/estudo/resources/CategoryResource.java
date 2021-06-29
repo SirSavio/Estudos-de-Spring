@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -59,6 +61,17 @@ public class CategoryResource {
 	public ResponseEntity<List<CategoryDTO>> index() { 
 		List<Category> cat = service.findAll();
 		List<CategoryDTO> list = cat.stream().map(cate -> new CategoryDTO(cate)).toList();
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoryDTO>> showPage(
+			@RequestParam(value = "page", defaultValue = "0") Integer page, 
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy, 
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) { 
+		Page<Category> cat = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<CategoryDTO> list = cat.map(cate -> new CategoryDTO(cate));
 		return ResponseEntity.ok().body(list);
 	}
 }
