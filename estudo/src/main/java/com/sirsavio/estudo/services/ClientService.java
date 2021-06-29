@@ -3,7 +3,6 @@ package com.sirsavio.estudo.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,10 +31,9 @@ public class ClientService {
 	
 	public Client update(Client obj) {
 		Client newObj = findById(obj.getId());
-		BeanUtils.copyProperties(obj, newObj);
-		System.out.println(newObj);
-		findById(obj.getId());
-		return repo.save(obj);
+		merge(newObj, obj);
+
+		return repo.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -53,5 +51,10 @@ public class ClientService {
 	
 	public Client fromDTO(ClientDTO obj) {
 		return new Client(obj.getId(), obj.getName(), obj.getEmail(), null, null);
+	}
+	
+	private void merge(Client newObj, Client obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
 	}
 }
