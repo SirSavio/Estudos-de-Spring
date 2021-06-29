@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.sirsavio.estudo.domain.Category;
+import com.sirsavio.estudo.dto.CategoryDTO;
 import com.sirsavio.estudo.repositories.CategoryRepository;
 import com.sirsavio.estudo.services.exceptions.ObjectNotFoundException;
 
@@ -44,5 +45,9 @@ public class CategoryService {
 	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,  Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Category fromDTO(CategoryDTO obj) {
+		return new Category(obj.getId(), obj.getName());
 	}
 }
