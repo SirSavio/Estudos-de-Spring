@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sirsavio.estudo.domain.Category;
 import com.sirsavio.estudo.dto.CategoryDTO;
 import com.sirsavio.estudo.repositories.CategoryRepository;
+import com.sirsavio.estudo.services.exceptions.DataIntegrityException;
 import com.sirsavio.estudo.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -35,7 +36,11 @@ public class CategoryService {
 	}
 	
 	public void delete(Integer id) {
-		repo.deleteById(id);
+		try {
+			repo.deleteById(id);
+		} catch (Exception e) {
+			throw new DataIntegrityException("Não é possível apagar porque há entidades relacioandas!");
+		}
 	}
 	
 	public List<Category> findAll(){
