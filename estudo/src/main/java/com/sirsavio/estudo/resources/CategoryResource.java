@@ -1,6 +1,7 @@
 package com.sirsavio.estudo.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sirsavio.estudo.domain.Category;
+import com.sirsavio.estudo.dto.CategoryDTO;
 import com.sirsavio.estudo.services.CategoryService;
 import com.sirsavio.estudo.services.exceptions.DataIntegrityException;
 
@@ -51,5 +53,12 @@ public class CategoryResource {
 			throw new DataIntegrityException("Não é possível excluir uma catagoria que contem produtos!");
 		}
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoryDTO>> index() { 
+		List<Category> cat = service.findAll();
+		List<CategoryDTO> list = cat.stream().map(cate -> new CategoryDTO(cate)).toList();
+		return ResponseEntity.ok().body(list);
 	}
 }
