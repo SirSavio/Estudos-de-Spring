@@ -2,19 +2,43 @@ package com.sirsavio.estudo.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.sirsavio.estudo.services.validation.ClientCreate;
+
+@ClientCreate
 public class ClientNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty(message = "Nome é obrigatório")
+	@Length(min = 5, max = 120, message = "O nome deve possuir de 5 a 120 caracteres")
 	private String name;
+	
+	@NotEmpty(message = "Email é obrigatório")
+	@Email
 	private String email; 
+	
+	@NotEmpty(message = "Email é obrigatório")
 	private String document;
+	
 	private Integer type; 
 	
+	@NotEmpty(message = "Email é obrigatório")
 	private String street;
+	
+	@NotEmpty(message = "Email é obrigatório")
 	private String number; 
+	
 	private String complement;
 	private String neigh;
+	
+	@NotEmpty(message = "Email é obrigatório")
 	private String zipcode;
 	
+	@NotEmpty(message = "Email é obrigatório")
 	private String phone1;
 	private String phone2;
 	private String phone3;
