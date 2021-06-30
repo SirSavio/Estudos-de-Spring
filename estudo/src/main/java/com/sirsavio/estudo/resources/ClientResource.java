@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sirsavio.estudo.domain.Client;
 import com.sirsavio.estudo.dto.ClientDTO;
+import com.sirsavio.estudo.dto.ClientNewDTO;
 import com.sirsavio.estudo.services.ClientService;
 import com.sirsavio.estudo.services.exceptions.DataIntegrityException;
 
@@ -36,7 +37,7 @@ public class ClientResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@Valid @RequestBody ClientDTO objDTO){
+	public ResponseEntity<Void> create(@Valid @RequestBody ClientNewDTO objDTO){
 		Client obj = service.fromDTO(objDTO);
 		obj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
