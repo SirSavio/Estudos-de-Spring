@@ -45,6 +45,10 @@ public class OrderItem implements Serializable {
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
+	
+	public double getSubTotal(){
+		return (this.price - this.discount) * this.quantity;
+	}
 
 	public Double getPrice() {
 		return price;
