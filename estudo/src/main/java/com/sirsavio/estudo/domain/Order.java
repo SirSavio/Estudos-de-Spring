@@ -88,6 +88,14 @@ public class Order implements Serializable {
 	public Address getDeliveryAddress() {
 		return deliveryAddress;
 	}
+	
+	public double getTotal() {
+		Double count = 0.0;
+		for(OrderItem item : this.items) {
+			count = count +  item.getSubTotal();
+		}
+		return count;
+	}
 
 	public void setDeliveryAddress(Address deliveryAddress) {
 		this.deliveryAddress = deliveryAddress;

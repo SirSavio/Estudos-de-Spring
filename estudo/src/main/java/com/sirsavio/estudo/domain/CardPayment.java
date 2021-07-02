@@ -2,9 +2,11 @@ package com.sirsavio.estudo.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.sirsavio.estudo.domain.enums.Status;
 
 @Entity
+@JsonTypeName("card")
 public class CardPayment extends Payment{
 	private static final long serialVersionUID = 1L;
 	private Integer parcels;

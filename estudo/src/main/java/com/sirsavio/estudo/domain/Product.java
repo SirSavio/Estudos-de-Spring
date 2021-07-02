@@ -84,14 +84,6 @@ public class Product implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	public double getTotal() {
-		Double count = 0;
-		for(OrderItem item : this.items) {
-			count = count +  item.getSubTotal();
-		}
-		return count;
-	}
 
 	public List<Category> getCategories() {
 		return categories;
