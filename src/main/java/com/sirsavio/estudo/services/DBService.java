@@ -20,6 +20,7 @@ import com.sirsavio.estudo.domain.Payment;
 import com.sirsavio.estudo.domain.Product;
 import com.sirsavio.estudo.domain.State;
 import com.sirsavio.estudo.domain.enums.ClientType;
+import com.sirsavio.estudo.domain.enums.Profile;
 import com.sirsavio.estudo.domain.enums.Status;
 import com.sirsavio.estudo.repositories.AddressRepository;
 import com.sirsavio.estudo.repositories.CategoryRepository;
@@ -120,13 +121,19 @@ public class DBService {
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "00000000000", ClientType.PF, bcrypt.encode("123456"));
 		cli1.getPhones().addAll(Arrays.asList("99999999", "11111111"));
 		
+		Client cli2 = new Client(null, "Savio", "savio@gmail.com", "1111111111", ClientType.PF, bcrypt.encode("123456"));
+		cli2.addProfile(Profile.ADMIN);
+		cli2.getPhones().addAll(Arrays.asList("99999959", "11211111"));
+		
+		
 		Address e1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "35931188", cli1, cid1);
 		Address e2 = new Address(null, "Rua Jardim", "55", "Apt 101", "Campo Bom", "35931188", cli1, cid2);
+		Address e3 = new Address(null, "Rua Jardim", "55", "Apt 101", "Campo Bom", "35931188", cli2, cid2);
 		
 		cli1.getAddresses().addAll(Arrays.asList(e1, e2));
-		
-		clientRepository.saveAll(Arrays.asList(cli1));
-		addressRepository.saveAll(Arrays.asList(e1, e2));
+		cli2.getAddresses().addAll(Arrays.asList(e3));
+		clientRepository.saveAll(Arrays.asList(cli1, cli2));
+		addressRepository.saveAll(Arrays.asList(e1, e2, e3));
 		
 		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Order ped1 = new Order(null, date.parse("30/09/2021 10:32"), cli1, e1);

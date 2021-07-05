@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sirsavio.estudo.domain.enums.ClientType;
+import com.sirsavio.estudo.domain.enums.Profile;
 
 @Entity
 public class Client implements Serializable {
@@ -49,8 +52,14 @@ public class Client implements Serializable {
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "Profiles")
+	private Set<Integer> profile = new HashSet<>();
 	
-	public Client() {}
+	
+	public Client() {
+		addProfile(Profile.CLIENT);
+	}
 
 	public Client(Integer id, String name, String email, String document, ClientType type, String password) {
 		super();
@@ -60,6 +69,7 @@ public class Client implements Serializable {
 		this.document = document;
 		this.type = (type == null) ? null : type.getCod();
 		this.password = password;
+		addProfile(Profile.CLIENT);
 	}
 
 
@@ -72,6 +82,17 @@ public class Client implements Serializable {
 		this.id = id;
 	}
 
+	public Set<Profile> getProfile() {
+		return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addProfile(Profile profile) {
+		this.profile.add(profile.getCod());
+	}
+
+	public void setProfile(Set<Integer> profile) {
+		this.profile = profile;
+	}
 
 	public String getName() {
 		return name;
