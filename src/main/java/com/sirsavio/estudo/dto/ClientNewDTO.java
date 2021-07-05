@@ -26,6 +26,10 @@ public class ClientNewDTO implements Serializable {
 	
 	private Integer type; 
 	
+	@NotEmpty(message = "Senha é obrigatório")
+	@Length(min = 6, message = "Senha deve possuir pelo menos 6 caracteres")
+	private String password;
+
 	@NotEmpty(message = "Email é obrigatório")
 	private String street;
 	
@@ -149,5 +153,13 @@ public class ClientNewDTO implements Serializable {
 
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

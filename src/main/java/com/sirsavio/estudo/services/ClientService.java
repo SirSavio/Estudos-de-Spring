@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sirsavio.estudo.domain.Address;
@@ -27,6 +28,9 @@ public class ClientService {
 	private ClientRepository repo;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
+	
 	public Client findById(Integer id) {
 		Optional<Client> client = repo.findById(id);
 		
@@ -63,12 +67,12 @@ public class ClientService {
 	}
 	
 	public Client fromDTO(ClientDTO obj) {
-		return new Client(obj.getId(), obj.getName(), obj.getEmail(), null, null);
+		return new Client(obj.getId(), obj.getName(), obj.getEmail(), null, null, null);
 	}
 	
 	public Client fromDTO(ClientNewDTO obj) {
-		Client client = new Client(null, obj.getName(), obj.getEmail(), obj.getDocument(), ClientType.toEnum(obj.getType()));
-		City city = new City(obj.getCidadeId(), null, null);
+		Client client = new Client(null, obj.getName(), obj.getEmail(), obj.getDocument(), ClientType.toEnum(obj.getType()), bcrypt.encode(obj.getPassword()));
+		City city = new City(obj.getCidadeId(), null, null); 
 		Address address = new Address(null, obj.getStreet(), obj.getNumber(), obj.getComplement(), obj.getNeigh(), obj.getZipcode(), client, city);
 		
 		client.getAddresses().add(address);
