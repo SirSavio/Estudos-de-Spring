@@ -2,6 +2,7 @@ package com.sirsavio.estudo.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -64,7 +65,7 @@ public class CategoryResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoryDTO>> index() { 
 		List<Category> cat = service.findAll();
-		List<CategoryDTO> list = cat.stream().map(cate -> new CategoryDTO(cate)).toList();
+		List<CategoryDTO> list = cat.stream().map(cate -> new CategoryDTO(cate)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(list);
 	}
 	
