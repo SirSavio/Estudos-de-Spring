@@ -125,7 +125,6 @@ public class DBService {
 		cli2.addProfile(Profile.ADMIN);
 		cli2.getPhones().addAll(Arrays.asList("99999959", "11211111"));
 		
-		
 		Address e1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "35931188", cli1, cid1);
 		Address e2 = new Address(null, "Rua Jardim", "55", "Apt 101", "Campo Bom", "35931188", cli1, cid2);
 		Address e3 = new Address(null, "Rua Jardim", "55", "Apt 101", "Campo Bom", "35931188", cli2, cid2);
